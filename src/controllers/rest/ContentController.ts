@@ -1,14 +1,14 @@
 import { Controller } from "@tsed/di";
 import { Get, PathParams } from "@tsed/common";
 import { envs } from "src/config/envs";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { Required } from "@tsed/schema";
-import { ContentCategory } from "src/models/ContentCategory";
 
 @Controller("/content")
 export class ContentController {
 
-	private readonly restClient: any = null;
+	private readonly restClient: AxiosInstance;
+	private readonly contentRestClient: AxiosInstance;
 
 	constructor() {
 		this.restClient = axios.create({
@@ -17,6 +17,11 @@ export class ContentController {
 			headers: {
 				'Authorization': `Bearer ${envs.neocities.apiKey}`
 			}
+		});
+
+		this.contentRestClient = axios.create({
+			baseURL: "https://deftlad-content.neocities.org",
+			timeout: 6000
 		});
 	}
 
@@ -29,6 +34,20 @@ export class ContentController {
 		});
 	}
 
+	@Get("/blogs-metadata")
+	public async getBlogsMetadata(): Promise<any> {
+		return this.contentRestClient.get<any>(
+			"/content/BLOG.metadata.json"
+		);
+	}
+
+	@Get("/blogs/data/:file")
+	public async getBlogData(@Required() @PathParams("file") file: string): Promise<string> {
+		return this.contentRestClient.get<void, string>(
+			`/content/BLOG/${file}`
+		);
+	}
+
 	@Get("/projects")
 	public async listProjects(): Promise<any> {
 		return this.restClient.get("/list", {
@@ -36,5 +55,12 @@ export class ContentController {
 				path: envs.projectsLocation
 			}
 		});
+	}
+
+	@Get("/projects-metadata")
+	public async getProjectsMetadata(): Promise<any> {
+		return this.contentRestClient.get<any>(
+			"/content/PROJECT.metadata.json"
+		);
 	}
 }
