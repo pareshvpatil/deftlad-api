@@ -1,6 +1,6 @@
 import { Controller } from "@tsed/di";
 import { Get, PathParams } from "@tsed/common";
-import { envs } from "src/config/envs";
+import { envs } from "../../config/envs";
 import axios, { AxiosInstance } from "axios";
 import { Required } from "@tsed/schema";
 
