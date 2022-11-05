@@ -34,7 +34,7 @@ export class ContentController {
 		});
 	}
 
-	@Get("/blogs-metadata")
+	@Get("/blogs/metadata")
 	public async getBlogsMetadata(): Promise<any> {
 		return this.contentRestClient.get<any>(
 			"/content/BLOG.metadata.json"
@@ -48,6 +48,20 @@ export class ContentController {
 		);
 	}
 
+	@Get("/blogs/info/:file")
+	public async getBlogInfo(@Required() @PathParams("file") file: string): Promise<any> {
+		const blogs = await this.listBlogs();
+		const blogInfo = blogs.data.files.find((listedFile: any) => listedFile.path.indexOf(file) >= 0);
+
+		const blogsMetadata = await this.getBlogsMetadata();
+
+		return {
+			title: blogsMetadata.data.info[file].title,
+			updatedAt: blogInfo.updated_at,
+			bannerURL: `https://deftlad-content.neocities.org/resources/BLOG/${blogsMetadata.data.info[file].banner}`
+		};
+	}
+
 	@Get("/projects")
 	public async listProjects(): Promise<any> {
 		return this.restClient.get("/list", {
@@ -57,7 +71,7 @@ export class ContentController {
 		});
 	}
 
-	@Get("/projects-metadata")
+	@Get("/projects/metadata")
 	public async getProjectsMetadata(): Promise<any> {
 		return this.contentRestClient.get<any>(
 			"/content/PROJECT.metadata.json"
