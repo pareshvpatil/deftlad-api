@@ -77,4 +77,25 @@ export class ContentController {
 			"/content/PROJECT.metadata.json"
 		);
 	}
+
+	@Get("/projects/data/:file")
+	public async getProjectData(@Required() @PathParams("file") file: string): Promise<string> {
+		return this.contentRestClient.get<void, string>(
+			`/content/PROJECT/${file}`
+		);
+	}
+
+	@Get("/projects/info/:file")
+	public async getProjectInfo(@Required() @PathParams("file") file: string): Promise<any> {
+		const projects = await this.listProjects();
+		const projectInfo = projects.data.files.find((listedFile: any) => listedFile.path.indexOf(file) >= 0);
+
+		const projectsMetadata = await this.getProjectsMetadata();
+
+		return {
+			title: projectsMetadata.data.info[file].title,
+			updatedAt: projectInfo.updated_at,
+			bannerURL: `https://deftlad-content.neocities.org/resources/PROJECT/${projectsMetadata.data.info[file].banner}`
+		};
+	}
 }
