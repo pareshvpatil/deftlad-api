@@ -1,6 +1,6 @@
 {
   "name": "deftlad-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Backend for Deftlad Website",
   "scripts": {
     "test": "echo 'no tests'",
