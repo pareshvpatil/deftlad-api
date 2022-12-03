@@ -49,8 +49,7 @@ import { envs, isProduction } from "./config/envs";
       host: envs.REDIS_HOST,
       port: Number(envs.REDIS_PORT || 6379),
       username: envs.REDIS_USERNAME,
-      password: envs.REDIS_PASSWORD,
-      tls: isProduction ? {} : undefined
+      password: envs.REDIS_PASSWORD
     }
   ]
 })
