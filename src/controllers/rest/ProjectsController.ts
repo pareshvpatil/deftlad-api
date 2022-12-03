@@ -6,35 +6,35 @@ import { Required } from "@tsed/schema";
 
 (global as any).locationid = 1;
 
-@Controller("/blogs")
-export class BlogsController {
+@Controller("/projects")
+export class ProjectsController {
 
 	@Inject()
 	private readonly contentService: ContentService;
 
 	@Get("/")
-	public async listBlogs(): Promise<IBlogInfo[]> {
-		return this.contentService.listBlogs();
+	public async listProjects(): Promise<IBlogInfo[]> {
+		return this.contentService.listProjects();
 	}
 
 	@Get("/info/:file")
 	public async getBlogInfo(@Required() @PathParams("file") file: string): Promise<any> {
-		const blogsMetadata = await this.getMetadata();
-		return blogsMetadata.info[file];
+		const projectsMetadata = await this.getMetadata();
+		return projectsMetadata.info[file];
 	}
 
 	@Get("/metadata")
 	public async getMetadata(): Promise<any> {
-		return this.contentService.getPageMetadata(PageType.blog);
+		return this.contentService.getPageMetadata(PageType.project);
 	}
 
 	@Get("/recent")
 	public async getRecentBlogs(): Promise<IBlogInfo[]> {
-		return this.contentService.listRecentBlogs();
+		return this.contentService.listRecentProjects();
 	}
 
 	@Get("/content/:file")
 	public async getBlogContent(@Required() @PathParams("file") file: string): Promise<string | null> {
-		return this.contentService.getContent(PageType.blog, file);
+		return this.contentService.getContent(PageType.project, file);
 	}
 }

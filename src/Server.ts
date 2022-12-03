@@ -8,9 +8,10 @@ import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import cors from "cors";
 import "@tsed/ajv";
+import "@tsed/ioredis";
 import {config} from "./config";
 import * as rest from "./controllers/rest";
-import { isProduction } from "./config/envs";
+import { envs, isProduction } from "./config/envs";
 
 @Configuration({
   ...config,
@@ -41,6 +42,16 @@ import { isProduction } from "./config/envs";
   },
   exclude: [
     "**/*.spec.ts"
+  ],
+  ioredis: [
+    {
+      name: "default",
+      host: envs.REDIS_HOST,
+      port: Number(envs.REDIS_PORT || 6379),
+      username: envs.REDIS_USERNAME,
+      password: envs.REDIS_PASSWORD,
+      tls: isProduction ? {} : undefined
+    }
   ]
 })
 export class Server {

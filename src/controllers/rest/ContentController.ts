@@ -15,7 +15,7 @@ export class ContentController {
 			baseURL: "https://neocities.org/api",
 			timeout: 6000,
 			headers: {
-				'Authorization': `Bearer ${envs.neocities.apiKey}`
+				'Authorization': `Bearer ${envs.NEOCITIES_API_KEY}`
 			}
 		});
 
