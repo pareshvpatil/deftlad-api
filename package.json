@@ -1,14 +1,13 @@
 {
   "name": "deftlad-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Backend for Deftlad Website",
   "scripts": {
     "test": "echo 'no tests'",
     "clean": "rm -rf dist",
     "compile": "tsc --project tsconfig.compile.json",
-    "build": "npm run clean && npm run barrels && npm run compile",
-    "barrels": "barrelsby --config .barrelsby.json",
-    "start": "npm run start:local",
+    "build": "npm run clean && npm run compile",
+    "start": "npm run start:prod",
     "start:local": "node --require=ts-node/register src/index.ts",
     "start:server": "tsnd --inspect --exit-child --cls --ignore-watch node_modules --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
     "start:prod": "cross-env NODE_ENV=production node dist/index.js",

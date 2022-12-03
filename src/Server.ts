@@ -16,7 +16,7 @@ import { isProduction } from "./config/envs";
   ...config,
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
-  httpsPort: isProduction,
+  httpsPort: isProduction ? 8084 : 8085,
   componentsScan: false,
   mount: {
     "/rest": [
