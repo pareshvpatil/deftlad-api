@@ -6,7 +6,7 @@ import { isProduction } from "../../config/envs";
 export class HelloWorldController {
   @Get("/")
   public get(): Record<string, any> {
-    return {
+    const response = {
       message: "hello world",
       env: isProduction ? {
         ...process.env,
@@ -18,5 +18,9 @@ export class HelloWorldController {
         }
       } : process.env
     };
+
+    console.log(response);
+
+    return response;
   }
 }
